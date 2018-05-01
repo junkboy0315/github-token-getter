@@ -1,12 +1,13 @@
 # Github Token Getter
-This is a simple lambda function made for github OAuth system to get `access token` by the `code`.
+Github OAuth requires a backend server and is not ready for full-frontend authentication. This repo is a lambda function that solves these problems and allows you to get `access token` by the `code`.
 
 ## How to use
 
-1. Install `serverless` cli (if you don't have)
+1. Install [serverless](https://serverless.com/) and setup (if you don't have)
     ```cmd
     yarn global add serverless
-
+    export AWS_ACCESS_KEY_ID=<your-aws-key>
+    export AWS_SECRET_ACCESS_KEY=<your-aws-secret-key>
     ```
 
 2. Clone this repo
@@ -14,11 +15,10 @@ This is a simple lambda function made for github OAuth system to get `access tok
     git clone THIS_REPOSITORY
     ```
 
-3. Open `src/config.ts` and enter github `client_id` and `client_secret` of yours.
-Note that these keys should not be disclosed to the public.
+3. Open `src/config.ts` and edit `client_id` and `client_secret`. These values ​​can be obtained from the github console. Note that these keys should not be disclosed to the public.
     ```
     cd github-token-getter
-    vi src/config
+    vi ./src/config.ts
     ```
 
 4. Deploy
@@ -28,8 +28,10 @@ Note that these keys should not be disclosed to the public.
 
 5. Get access token
 
+    Once AWS API Gateway deployed, you can get github access token by the `code`
+
     ```
-    GET http://your.api.gateway/getToken?code=1234ABCD
+    GET http://your.api.gateway/getToken?code=<CODE-FROM-GITHUB>
     ```
     returns
     ```
@@ -39,16 +41,16 @@ Note that these keys should not be disclosed to the public.
 ## Details
 Github OAuth system isn't ready for full front-end apps like single page application.
 
-Since the Github's API endpoint that exchanges the `code` and `access token` is not configured as CORS, so you can't get token from front-end apps and need some server which handle this stuff.
+Since Github's Oauth API endpoint (https://github.com/login/oauth/access_token) which exchanges `code` and ` access token` is not set as CORS, it is not possible to obtain a token from the front end application. In other words, you must make a request from the server to obtain a token.
 
-This lambda funtion is for that.
+This lambda function is for that purpose.
 
-[Github OAuth Documentation](https://developer.github.com/apps/building-oauth-apps/authorization-options-for-oauth-apps/#web-application-flow)
+Refer [Github OAuth Documentation](https://developer.github.com/apps/building-oauth-apps/authorization-options-for-oauth-apps/#web-application-flow) for more details.
 
 ## Getting Code
 [react-github-login](https://github.com/checkr/react-github-login) is useful to get `code`.
 
 Once you get the code, send a GET request to the function.
 ```
-GET http://your.api.gateway/getToken?code=CODE_GET_BY_REACT-GITHUB-LOGIN
+GET http://your.api.gateway/getToken?code=<CODE_GET_BY_REACT-GITHUB-LOGIN>
 ```
