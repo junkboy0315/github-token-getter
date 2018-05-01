@@ -19,6 +19,7 @@ functions:
           method: get
           path: getToken
           integration: lambda
+          cors: true
           reqValidatorName: onlyParam
           request:
             parameters:
