@@ -1,5 +1,5 @@
 # Github Token Getter
-Github OAuth requires a backend server and is not ready for full-frontend authentication. This repo is a lambda function that solves these problems and allows you to get `access token` by the `code`.
+Github OAuth requires a backend server and is not ready for full-frontend authentication. This repository consist of lambda function & API that solve these problems, and you can get `access token` in exchange for `code`.
 
 ## How to use
 
@@ -38,19 +38,22 @@ Github OAuth requires a backend server and is not ready for full-frontend authen
     { accessToken: 'ACCESS_TOKEN'}
     ```
 
+## API Specification
+Refer [Swagger Hub](https://app.swaggerhub.com/apis/Yuuniworks/github-token-getter/1.0.0-oas3).
+
+## How to get `code` in frontend
+[react-github-login](https://github.com/checkr/react-github-login) is useful to get `code`.
+
+Once you get the code, you just need to send a GET request to  your API.
+```
+GET http://your.api.gateway/getToken?code=<CODE-FROM-GITHUB>
+```
+
 ## Details
 Github OAuth system isn't ready for full front-end apps like single page application.
 
-Since Github's Oauth API endpoint (https://github.com/login/oauth/access_token) which exchanges `code` and ` access token` is not set as CORS, it is not possible to obtain a token from the front end application. In other words, you must make a request from the server to obtain a token.
+Since Github's Oauth API endpoint (https://github.com/login/oauth/access_token) which provides `access token` in exchange for `code`, is not set as CORS, it is not possible to obtain a token from the front end application. In other words, you must make a request from the backend server to obtain a token.
 
-This lambda function is for that purpose.
+This lambda function & API is for that purpose.
 
 Refer [Github OAuth Documentation](https://developer.github.com/apps/building-oauth-apps/authorization-options-for-oauth-apps/#web-application-flow) for more details.
-
-## Getting Code
-[react-github-login](https://github.com/checkr/react-github-login) is useful to get `code`.
-
-Once you get the code, send a GET request to the function.
-```
-GET http://your.api.gateway/getToken?code=<CODE_GET_BY_REACT-GITHUB-LOGIN>
-```
