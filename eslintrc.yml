@@ -1,0 +1,16 @@
+extends: prettier
+parser: babel-eslint
+rules:
+  prettier/prettier: 2
+
+env:
+  mocha: true
+
+plugins:
+  - prettier
+
+# stop no-undef warning about global variables.
+globals:
+  document: true
+  window: true
+  graphql: true
